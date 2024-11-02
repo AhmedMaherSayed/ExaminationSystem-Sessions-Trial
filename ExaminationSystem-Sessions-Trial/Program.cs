@@ -1,4 +1,8 @@
 
+using ExaminationSystem_Sessions_Trial.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+
 namespace ExaminationSystem_Sessions_Trial
 {
     public class Program
@@ -13,6 +17,12 @@ namespace ExaminationSystem_Sessions_Trial
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                    .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                );
 
             var app = builder.Build();
 
